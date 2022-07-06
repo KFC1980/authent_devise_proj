@@ -21,8 +21,16 @@
         <td><%= post.state %></td>
         <td><%= post.user_id %></td>
         <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+        <% if current_user && current_user.admin? %>
+        <%= link_to 'Edit', edit_post_path(post) %>
+        <% end %>
+        </td>
+        <td>
+        <% if current_user && current_user.admin? %>
+        <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +38,6 @@
 
 <br>
 
+<% if current_user && current_user.admin? %>
 <%= link_to 'New Post', new_post_path %>
+<% end %>

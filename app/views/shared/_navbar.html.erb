@@ -16,13 +16,19 @@
       </li>
     </ul>
     <div class="ml-auto">
-        <ul class="navbar-nav">
-            <% if current_user %>
-            <li><%= link_to 'Log Out', destroy_user_session_path, method: :delete %></li>
-            <% else %>
-            <li><%= link_to 'Log In', new_user_session_path %></li>
-            <% end %>
-        </ul>
+      <ul class="navbar-nav">
+        <% if current_user && current_user.admin? %>
+        <li class="nav-item"><%= link_to "Hola admin #{current_user.nickname}", '#', class: 'nav-link' %></li>
+        <% elsif current_user %>
+        <li class="nav-item"><%= link_to "Hola #{current_user.nickname}", '#', class: 'nav-link' %></li>
+        <% end %>
+
+        <% if user_signed_in? %>
+        <li class="nav-item"><%= link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'nav-link'%></li>
+        <% else %>
+        <li class="nav-item"><%= link_to 'Log In', new_user_session_path, class: 'nav-link' %></li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </nav>

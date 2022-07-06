@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :check_admin_user, except: %i[index show]
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :set_states, only: %i[new edit]
 
@@ -67,6 +68,12 @@ class PostsController < ApplicationController
 
     def set_states
       @states = Post.states.keys.map { |s| [s.humanize, s] }
+    end
+
+    def check_admin_user
+      unless current_user.admin?
+        redirect_to root_path, notice: 'Solo administradores pueden realizar dicha acción' 
+      end
     end
 
     # Only allow a list of trusted parameters through.
